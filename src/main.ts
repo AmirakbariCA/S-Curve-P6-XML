@@ -77,19 +77,19 @@ function renderUpload(container: HTMLElement, forceDual: boolean): void {
   container.innerHTML = `
     <section class="upload-layout">
       <div class="upload-heading">
-        <h2>${dual ? 'Add the status and plan files' : 'Add the P6 PMXML file'}</h2>
-        <p>${dual ? 'Use the update/status schedule for actuals and the baseline or plan schedule for planned weights.' : 'If the file has no embedded baseline, the tool will ask for the separate plan file.'}</p>
+        <h2>${dual ? 'Add the updated and baseline files' : 'Add the P6 PMXML schedule file'}</h2>
+        <p>${dual ? 'Use the updated schedule for actual progress and the baseline schedule for planned dates and weights.' : 'For one-file mode, the schedule export must include its baseline inside the same PMXML file.'}</p>
       </div>
       <div class="drop-grid ${dual ? 'two' : ''}">
-        ${dropZone('status', dual ? 'Status file' : 'PMXML file', state.statusFile)}
-        ${dual ? dropZone('plan', 'Plan file', state.planFile) : ''}
+        ${dropZone('status', dual ? 'Updated file' : 'Schedule file with baseline', state.statusFile)}
+        ${dual ? dropZone('plan', 'Baseline file', state.planFile) : ''}
       </div>
       <div class="upload-actions">
         <button class="secondary-button" id="modeToggle" type="button">${dual ? 'Use one file instead' : 'I have two files'}</button>
         ${dual ? '<button class="secondary-button" id="swapFiles" type="button">Swap files</button>' : ''}
         <button class="primary-button" id="parseButton" type="button" ${dual ? (!state.statusFile || !state.planFile ? 'disabled' : '') : !state.statusFile ? 'disabled' : ''}>Parse PMXML</button>
       </div>
-      ${state.phase === 'need-plan' ? '<p class="inline-warning">This status file has no embedded baseline. Add the plan file to continue.</p>' : ''}
+      ${state.phase === 'need-plan' ? '<p class="inline-warning">This schedule file does not include an embedded baseline. Add the separate baseline file to continue.</p>' : ''}
     </section>
   `;
   wireDropZone('status');
